@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: Number,
+    required: false,
+    default: 1,
+  },
   isActive: {
     type: Boolean,
     required: false,

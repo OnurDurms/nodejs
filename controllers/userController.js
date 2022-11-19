@@ -2,7 +2,36 @@ const { User } = require("../models/users");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const Mongoose = require('mongoose');
+
 dotenv.config();
+
+
+const loginUser = async(email,password,res) => {
+  try {
+
+    if (!(email && password)) {
+      res.status(400).send("All input is required");
+    }
+    var user = await User.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      var token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+      user.token = token;
+      res.status(200).json({token: token});
+    }else{
+    res.status(400).send("Invalid Credentials");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 const registerUser = async(name,email,password,res) => {
     try {
@@ -44,11 +73,11 @@ const getUserWithId = async(id) => {
     return user;
 }
 
-const getAllUsers = async(body) => {
-    if(body.id){
-        const updatedUser = await User.findById(id);
+const getAllUsers = async(user) => {
+    if(user.user_id){
+        const updatedUser = await User.findById(user.user_id);
         if(updatedUser.isAdmin){
-            const allUsers = await User.find();
+            const allUsers = await User.find({status: 1});
             return allUsers;
         }else{
             return [];
@@ -65,40 +94,17 @@ const saveUser = async(body) => {
 }
 
 const updateUser = async(id,body) => {
-    await User.updateOne({ id }, body);
-    const updatedUser = await User.findById(id);
+    await User.updateOne({ _id : Mongoose.Types.ObjectId(id) }, {$set: body},{upsert: true});
+    const updatedUser = await User.findById(Mongoose.Types.ObjectId(id));
     return updatedUser;
 }
 
 const deleteUserWithId = async(id) => {
-    const user = await User.findByIdAndDelete(id);
-    return user;
-}
-
-const loginUser = async(email,password,res) => {
-        try {
-      
-          if (!(email && password)) {
-            res.status(400).send("All input is required");
-          }
-          var user = await User.findOne({ email });
-          if (user && (await bcrypt.compare(password, user.password))) {
-            var token = jwt.sign(
-              { user_id: user._id, email },
-              process.env.TOKEN_KEY,
-              {
-                expiresIn: "2h",
-              }
-            );
-      
-            user.token = token;
-            res.status(200).json({token: token});
-          }else{
-          res.status(400).send("Invalid Credentials");
-          }
-        } catch (err) {
-          console.log(err);
-        }
+  const user = await User.findOne({_id: id});
+  if(user.id){
+      const user = await User.updateOne({ id }, { status: 2});
+      return user; 
+  }
 }
 
 const setAdmin = async(id) => {
