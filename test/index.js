@@ -15,7 +15,7 @@ let uniqueKey = Math.floor(Math.random() * 100000000);
 // User Part
 describe('/POST register user', () => {
     it('it should POST a user ', (done) => {
-        let user = { name: "Onur " + uniqueKey, email: "onur_" + uniqueKey + "@onur.com", password: "12345678" };
+        const user = { name: "Onur " + uniqueKey, email: "onur_" + uniqueKey + "@onur.com", password: "12345678" };
         chai.request(server)
             .post('/api/user/register')
             .set('x-access-token', token)
@@ -52,8 +52,8 @@ describe('/POST login user', () => {
 
 describe('/GET/:id user', () => {
     it('it should GET a user by the given id', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" });
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" });
         user.save((err, user) => {
             chai.request(server)
                 .get('/api/user/' + user.id)
@@ -89,9 +89,9 @@ describe('/GET user', () => {
 });
 
 describe('/POST user', () => {
-    let uniqueKey = Math.floor(Math.random() * 100000000);
+    const uniqueKey = Math.floor(Math.random() * 100000000);
     it('it should POST a user ', (done) => {
-        let user = {
+        const user = {
             name: "Onur" + uniqueKey,
             email: "onur" + uniqueKey + "@onur.com",
             password: "12345678",
@@ -116,8 +116,8 @@ describe('/POST user', () => {
 
 describe('/PUT/:id user', () => {
     it('it should UPDATE a user given the id', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
         user.save((err, user) => {
             chai.request(server)
                 .put('/api/user/' + user.id)
@@ -140,8 +140,8 @@ describe('/PUT/:id user', () => {
 
 describe('/DELETE/:id user', () => {
     it('it should DELETE a user given the id', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
         user.save((err, user) => {
             chai.request(server)
                 .delete('/api/user/' + user.id)
@@ -166,10 +166,10 @@ describe('/DELETE/:id user', () => {
 // Task Part
 describe('/GET/:id task', () => {
     it('it should GET a task by the given id', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur", email: "onur" + uniqueKey + "@onur.com", password: "12345678" });
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur", email: "onur" + uniqueKey + "@onur.com", password: "12345678" });
         user.save((err, user) => {
-            let task = new Task({ title: "Task Title" + uniqueKey, description: "Task Description" + uniqueKey, status: 1, user_id: user._id });
+            const task = new Task({ title: "Task Title" + uniqueKey, description: "Task Description" + uniqueKey, status: 1, user_id: user._id });
             task.save((err, task) => {
                 chai.request(server)
                     .get('/api/task/' + task.id)
@@ -207,10 +207,10 @@ describe('/GET task', () => {
 
 describe('/POST task', () => {
     it('it should POST a task ', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur", email: "onur" + uniqueKey + "@onur.com", password: "12345678" });
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur", email: "onur" + uniqueKey + "@onur.com", password: "12345678" });
         user.save((err, user) => {
-            let task = {
+            const task = {
                 title: "Task title " + uniqueKey,
                 description: "Task Description " + uniqueKey,
                 status: 1,
@@ -238,10 +238,10 @@ describe('/POST task', () => {
 
 describe('/PUT/:id task', () => {
     it('it should UPDATE a task given the id', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
         user.save((err, user) => {
-            let task = new Task({ title: "Task Title " + uniqueKey, description: "Task Description " + uniqueKey, status: 1, user_id: user._id })
+            const task = new Task({ title: "Task Title " + uniqueKey, description: "Task Description " + uniqueKey, status: 1, user_id: user._id })
             task.save((err, task) => {
                 chai.request(server)
                     .put('/api/task/' + task.id)
@@ -266,10 +266,10 @@ describe('/PUT/:id task', () => {
 
 describe('/DELETE/:id task', () => {
     it('it should DELETE a task given the id', (done) => {
-        let uniqueKey = Math.floor(Math.random() * 100000000);
-        let user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
+        const uniqueKey = Math.floor(Math.random() * 100000000);
+        const user = new User({ name: "Onur" + uniqueKey, email: "onur" + uniqueKey + "@onur.com", password: "12345678" })
         user.save((err, user) => {
-            let task = new Task({ title: "Task Title " + uniqueKey, description: "Task Description " + uniqueKey, user_id: user._id, status: 1 })
+            const task = new Task({ title: "Task Title " + uniqueKey, description: "Task Description " + uniqueKey, user_id: user._id, status: 1 })
             task.save((err, task) => {
                 chai.request(server)
                     .delete('/api/task/' + task.id)
